@@ -123,7 +123,7 @@ You can also run `bin/console` for an interactive prompt that will allow you to 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/your_username/heap_periscope_agent. <!-- TODO: Update this URL -->
+Bug reports and pull requests are welcome on GitHub at https://github.com/codepawpaw/heap_periscope_agent.
 This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the Contributor Covenant code of conduct. <!-- Optional: if you adopt one -->
 
 1.  Fork the repository.
@@ -131,4 +131,3 @@ This project is intended to be a safe, welcoming space for collaboration, and co
 3.  Commit your changes (`git commit -am 'Add some feature'`).
 4.  Push to the branch (`git push origin my-new-feature`).
 5.  Create a new Pull Request.
-

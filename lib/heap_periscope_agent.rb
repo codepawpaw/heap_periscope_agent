@@ -1,3 +1,4 @@
+require_relative './heap_periscope_agent/version.rb'
 require_relative './heap_periscope_agent/configuration.rb'
 require_relative './heap_periscope_agent/collector.rb'
 require_relative './heap_periscope_agent/reporter.rb'
