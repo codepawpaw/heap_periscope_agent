@@ -2,6 +2,7 @@ require_relative "heap_periscope_agent/version"
 require_relative "heap_periscope_agent/configuration"
 require_relative "heap_periscope_agent/collector"
 require_relative "heap_periscope_agent/reporter"
+require_relative "heap_periscope_agent/sidekiq_job_tracker"
 
 module HeapPeriscopeAgent
   class << self

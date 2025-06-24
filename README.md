@@ -36,10 +36,10 @@ gem install heap_periscope_agent
 
 ### 1. Installation & Setup
 
-For Rails applications, after bundling the gem, run the install generator to create an initializer file:
+For Rails applications, after bundling the gem, run the config generator to create an initializer file:
 
 ```bash
-rails generate heap_periscope_agent:install
+rails generate heap_periscope_agent:config
 ```
 This will create `config/initializers/heap_periscope_agent.rb`.
 
@@ -62,6 +62,79 @@ HeapPeriscopeAgent.configure do |config|
   # distinct object types to report on.
   config.detailed_objects_limit = 20 # Default: 20
 end
+```
+
+### 2. Tracking Sidekiq Jobs
+
+The agent can be easily configured to monitor the memory usage of your Sidekiq jobs.
+
+#### Tracking All Sidekiq Jobs
+
+To monitor every job processed by your Sidekiq server, you can install a middleware. This is the recommended approach for general monitoring.
+
+```bash
+rails generate heap_periscope_agent:sidekiq_middleware
+```
+
+This command creates an initializer that adds the tracking middleware to Sidekiq's server chain. Restart your Sidekiq process for the change to take effect.
+
+#### Tracking a Specific Sidekiq Job
+
+If you need to focus on a single, potentially problematic job, you can instrument it directly.
+
+```bash
+rails generate heap_periscope_agent:job_tracker MySpecificJob
+```
+
+Replace `MySpecificJob` with the class name of your job (e.g., `ProcessCsvJob`, `Integrations::ThirdPartySyncJob`). This will prepend a tracking module directly into the job file.
+
+### 3. Tracking Rake Tasks
+
+The agent can also monitor the memory usage of your Rake tasks.
+
+#### Tracking All Rake Tasks
+
+To monitor the entire execution of any Rake command (e.g., `rails db:migrate`, `rails assets:precompile`), you can install the Rake instrumentation. This is the recommended approach for general monitoring of background tasks.
+
+```bash
+rails generate heap_periscope_agent:rake_instrumentation
+```
+
+This command creates an initializer that wraps the main Rake execution loop, starting the agent when the command begins and stopping it when it finishes.
+
+#### Tracking a Specific Rake Task
+
+If you want to isolate and monitor a single Rake task, you can generate a specific tracker for it.
+
+```bash
+rails generate heap_periscope_agent:rake_task_tracker my_namespace:my_task
+```
+
+Replace `my_namespace:my_task` with the name of your task. This command will create a new file in `lib/tasks/` that enhances your existing task at runtime to add memory profiling. This method does not modify your original Rake file.
+
+### 4. Manual Usage
+
+Beyond the automated setup for Rails and Sidekiq, you can control the agent programmatically. This is useful for profiling specific sections of code, Rake tasks, or in non-Rails applications.
+
+#### Wrapping a Code Block
+
+To monitor a specific piece of code, you can wrap it with `HeapPeriscopeAgent.start` and `HeapPeriscopeAgent.stop`. It's crucial to use an `ensure` block to guarantee that the agent is stopped, even if an error occurs.
+
+```ruby
+begin
+  HeapPeriscopeAgent.start
+  # --- Your code to be profiled goes here ---
+ensure
+  HeapPeriscopeAgent.stop
+end
+```
+
+#### Taking a Single Snapshot
+
+If you don't need continuous monitoring and just want a single, on-demand snapshot of the application's memory state, you can use `report_once!`. This will collect and send a single report without starting the background monitoring thread.
+
+```ruby
+HeapPeriscopeAgent.report_once!
 ```
 
 ### Configuration Options
