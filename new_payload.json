@@ -1,0 +1,172 @@
+{
+    "identifier": "{\"channel\":\"HeapPeriscopeUi::RuntimeStatsChannel\"}",
+    "message": {
+      "type": "snapshot",
+      "process_id": 92451,
+      "service_name": "Rails",
+      "reported_at": "2025-06-24T04:59:17Z",
+      "payload": {
+        "gc_stats": {
+          "count": 81,
+          "time": 777,
+          "marking_time": 489,
+          "sweeping_time": 288,
+          "heap_allocated_pages": 429,
+          "heap_sorted_length": 641,
+          "heap_allocatable_pages": 212,
+          "heap_available_slots": 434402,
+          "heap_live_slots": 425371,
+          "heap_free_slots": 9031,
+          "heap_final_slots": 0,
+          "heap_marked_slots": 343461,
+          "heap_eden_pages": 429,
+          "heap_tomb_pages": 0,
+          "total_allocated_pages": 429,
+          "total_freed_pages": 0,
+          "total_allocated_objects": 4751189,
+          "total_freed_objects": 4325818,
+          "malloc_increase_bytes": 11592912,
+          "malloc_increase_bytes_limit": 16777216,
+          "minor_gc_count": 70,
+          "major_gc_count": 11,
+          "compact_count": 0,
+          "read_barrier_faults": 0,
+          "total_moved_objects": 0,
+          "remembered_wb_unprotected_objects": 0,
+          "remembered_wb_unprotected_objects_limit": 2708,
+          "old_objects": 300801,
+          "old_objects_limit": 541726,
+          "oldmalloc_increase_bytes": 16718032,
+          "oldmalloc_increase_bytes_limit": 28422576
+        },
+        "object_space_summary": {
+          "TOTAL": 434402,
+          "FREE": 9031,
+          "T_OBJECT": 9164,
+          "T_CLASS": 20933,
+          "T_MODULE": 1217,
+          "T_FLOAT": 7,
+          "T_STRING": 115730,
+          "T_REGEXP": 1573,
+          "T_ARRAY": 26948,
+          "T_HASH": 6881,
+          "T_STRUCT": 594,
+          "T_BIGNUM": 35,
+          "T_FILE": 45,
+          "T_DATA": 21683,
+          "T_MATCH": 1369,
+          "T_COMPLEX": 1,
+          "T_RATIONAL": 875,
+          "T_SYMBOL": 1115,
+          "T_IMEMO": 201760,
+          "T_ICLASS": 15441
+        },
+        "living_objects_by_class": {
+          "String": {
+            "count": 116776,
+            "is_platform_class": true
+          },
+          "Array": {
+            "count": 26039,
+            "is_platform_class": true
+          },
+          "Class": {
+            "count": 17948,
+            "is_platform_class": false
+          },
+          "Nokogiri::XML::Text": {
+            "count": 12958,
+            "is_platform_class": false
+          },
+          "Hash": {
+            "count": 6482,
+            "is_platform_class": true
+          },
+          "Proc": {
+            "count": 3810,
+            "is_platform_class": true
+          },
+          "Regexp": {
+            "count": 1573,
+            "is_platform_class": true
+          },
+          "MatchData": {
+            "count": 1367,
+            "is_platform_class": false
+          },
+          "Module": {
+            "count": 1206,
+            "is_platform_class": false
+          },
+          "Symbol": {
+            "count": 1115,
+            "is_platform_class": true
+          },
+          "Thread::Backtrace::Location": {
+            "count": 927,
+            "is_platform_class": false
+          },
+          "Rational": {
+            "count": 875,
+            "is_platform_class": false
+          },
+          "Gem::Requirement": {
+            "count": 865,
+            "is_platform_class": false
+          },
+          "Time": {
+            "count": 569,
+            "is_platform_class": true
+          },
+          "Rails::Initializable::Initializer": {
+            "count": 539,
+            "is_platform_class": true
+          },
+          "Thread::Mutex": {
+            "count": 425,
+            "is_platform_class": false
+          },
+          "TZInfo::CountryTimezone": {
+            "count": 418,
+            "is_platform_class": false
+          },
+          "ActiveSupport::SafeBuffer": {
+            "count": 360,
+            "is_platform_class": true
+          },
+          "Gem::StubSpecification": {
+            "count": 338,
+            "is_platform_class": false
+          },
+          "Gem::StubSpecification::StubLine": {
+            "count": 338,
+            "is_platform_class": false
+          }
+        },
+        "living_objects_by_spans": {
+          "controller": [
+            {
+              "name": "HelloController",
+              "live_objects": [
+                {
+                  "name": "String",
+                  "type": "native",
+                  "count": 10,
+                  "size": "100KB"
+                },
+                {
+                  "name": "UserModel",
+                  "type": "application",
+                  "count": 100,
+                  "size": "100KB"
+                }
+              ]
+            }
+          ]
+        },
+        "living_objects_by_custom_spans": {
+          
+        }
+      }
+    }
+  }

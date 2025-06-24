@@ -147,6 +147,7 @@ HeapPeriscopeAgent.report_once!
 | `verbose`                 | Enable verbose logging from the agent.                                      | `true`      |
 | `enable_detailed_objects` | Enable collection of detailed object allocation information.                | `false`     |
 | `detailed_objects_limit`  | Max number of detailed object types to report if `enable_detailed_objects` is true. | `20`        |
+| `service_name`            | An optional custom name for the service/process. If not set, it's automatically detected (Rails, Sidekiq, Rake). | `nil` (auto-detected) |
 
 ## Development
 

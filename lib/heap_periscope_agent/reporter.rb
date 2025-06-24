@@ -94,6 +94,29 @@ module HeapPeriscopeAgent
 
     private
 
+    def self.service_name
+      # Prioritize user-defined service name from configuration
+      if @config && @config.service_name
+        return @config.service_name
+      end
+
+      # The order of these checks is important.
+      # A Sidekiq process within a Rails app should be identified as 'Sidekiq'.
+      if defined?(::Sidekiq) && ::Sidekiq.server?
+        'Sidekiq'
+      # A Rake task within a Rails app should be identified as 'Rake'.
+      elsif File.basename($0) == 'rake'
+        'Rake'
+      # If it's not a Sidekiq server or a Rake task, but Rails is loaded,
+      # we assume it's a Rails process (e.g., web server, console).
+      elsif defined?(::Rails)
+        'Rails'
+      else
+        # Fallback for other environments.
+        File.basename($0)
+      end
+    end
+
     def self.send_snapshot_report
       HeapPeriscopeAgent.log("Collecting periodic snapshot...")
       stats = HeapPeriscopeAgent::Collector.collect_snapshot(@config.enable_detailed_objects)
@@ -120,6 +143,7 @@ module HeapPeriscopeAgent
       payload = {
         type: type,
         process_id: Process.pid,
+        service_name: service_name,
         reported_at: Time.now.utc.iso8601,
         payload: data
       }.to_json
