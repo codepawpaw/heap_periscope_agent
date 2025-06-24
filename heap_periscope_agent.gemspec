@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
     DESC
     s.authors     = ["Jonathan Natanael Siahaan"]
     s.email       = "js.jonathan.n@gmail.com"
-    s.files       = Dir.glob("lib/**/*.rb")
+    s.files       = Dir.glob("lib/**/*.rb") + Dir.glob("lib/generators/**/*")
     s.homepage    = "https://github.com/codepawpaw/heap_periscope_agent"
     s.license     = "MIT"
     s.metadata["homepage_uri"] = s.homepage

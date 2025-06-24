@@ -34,62 +34,34 @@ gem install heap_periscope_agent
 
 ## Usage
 
-### Configuration
+### 1. Installation & Setup
 
-You can configure Heap Periscope Agent, typically in an initializer file (e.g., `config/initializers/heap_periscope_agent.rb` in a Rails application) or early in your application's boot process.
+For Rails applications, after bundling the gem, run the install generator to create an initializer file:
+
+```bash
+rails generate heap_periscope_agent:install
+```
+This will create `config/initializers/heap_periscope_agent.rb`.
 
 ```ruby
+# config/initializers/heap_periscope_agent.rb
 HeapPeriscopeAgent.configure do |config|
   # Interval in seconds for collecting and reporting metrics.
   config.interval = 10 # Default: 10
 
   # Host of the server where metrics will be sent.
   config.host = '127.0.0.1' # Default: '127.0.0.1'
-
   # Port of the metrics server.
   config.port = 9000 # Default: 9000
-
   # Enable verbose logging from the agent.
   config.verbose = true # Default: true
-
   # Enable collection of detailed object allocation information.
   # This can have a higher performance overhead.
   config.enable_detailed_objects = false # Default: false
-
   # If detailed_objects is enabled, this limits the number of
   # distinct object types to report on.
   config.detailed_objects_limit = 20 # Default: 20
 end
-```
-
-### Starting the Agent
-
-To start collecting and reporting metrics, you'll need to initialize and run the agent's collector and reporter. (Further implementation details for starting the agent, such as a `HeapPeriscopeAgent.start` method, would typically be added to the gem itself).
-
-A conceptual `HeapPeriscopeAgent.start` method would likely:
-1. Initialize `HeapPeriscopeAgent::Collector` with the current configuration.
-2. Initialize `HeapPeriscopeAgent::Reporter` with the current configuration.
-3. Periodically trigger the collector to gather data and the reporter to send it, based on the configured `interval`. This might run in a separate thread.
-
-```ruby
-# Example: In your application's startup sequence
-# This is a conceptual example; you'll need to implement the start logic
-# or integrate the Collector and Reporter manually.
-
-# if defined?(HeapPeriscopeAgent.start)
-#   HeapPeriscopeAgent.start
-# else
-#   # Manual setup might look something like this (highly simplified):
-#   # Thread.new do
-#   #   loop do
-#   #     collector = HeapPeriscopeAgent::Collector.new(HeapPeriscopeAgent.configuration)
-#   #     reporter = HeapPeriscopeAgent::Reporter.new(HeapPeriscopeAgent.configuration)
-#   #     data = collector.collect_data
-#   #     reporter.report(data)
-#   #     sleep HeapPeriscopeAgent.configuration.interval
-#   #   end
-#   # end
-# end
 ```
 
 ### Configuration Options

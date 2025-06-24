@@ -1,0 +1,32 @@
+HeapPeriscopeAgent.configure do |config|
+  # Interval in seconds for collecting and reporting metrics.
+  # This determines how frequently a full snapshot of heap and GC stats is sent.
+  # Default: 10
+  config.interval = 10
+
+  # Host of the server where metrics will be sent via UDP.
+  # Ensure this is reachable from your application environment.
+  # Default: '127.0.0.1'
+  config.host = '127.0.0.1'
+
+  # Port of the metrics server.
+  # This must match the port your UDP server is listening on.
+  # Default: 9000
+  config.port = 9000
+
+  # Enable verbose logging from the agent to STDOUT/STDERR.
+  # Useful for debugging the agent's behavior.
+  # Default: true
+  config.verbose = true
+
+  # Enable collection of detailed object allocation information (counts by class).
+  # This can have a higher performance overhead, especially during ObjectSpace.each_object calls.
+  # Use judiciously in production.
+  # Default: false
+  config.enable_detailed_objects = false
+
+  # If detailed_objects is enabled, this limits the number of
+  # distinct object types (by class name) to report on, sorted by count.
+  # Default: 20
+  config.detailed_objects_limit = 20
+end
