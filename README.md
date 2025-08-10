@@ -32,6 +32,14 @@ Or install it yourself as:
 gem install heap_periscope_agent
 ```
 
+### Agent + UI Setup
+To get a complete, end-to-end view of your application's memory usage, you'll need to run both the Heap Periscope Agent and the Heap Periscope UI. The agent collects the data, and the UI visualizes it
+
+You can find the Heap Periscope UI here: 
+https://github.com/codepawpaw/heap_periscope_ui
+
+Follow the installationinstruction in the github page
+
 ## Usage
 
 ### 1. Installation & Setup
