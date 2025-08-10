@@ -64,7 +64,27 @@ HeapPeriscopeAgent.configure do |config|
 end
 ```
 
-### 2. Tracking Sidekiq Jobs
+### 2. Tracking Rails Controller Living Objects
+
+If you want to monitor living objects inside rails controller, you can generate a specific tracker for it.
+
+```bash
+rails generate heap_periscope_agent:controller_instrumentation
+```
+
+Remember to enable `config.enable_controller_instrumentation = true` in your main HeapPeriscopeAgent initializer
+
+### 3. Tracking Rails Model Living Objects
+
+If you want to monitor living objects inside rails model, you can generate a specific tracker for it.
+
+```bash
+rails generate heap_periscope_agent:model_instrumentation
+```
+
+Remember to enable `config.enable_model_instrumentation = true` in your main HeapPeriscopeAgent initializer
+
+### 3. Tracking Sidekiq Jobs
 
 The agent can be easily configured to monitor the memory usage of your Sidekiq jobs.
 
@@ -88,7 +108,7 @@ rails generate heap_periscope_agent:job_tracker MySpecificJob
 
 Replace `MySpecificJob` with the class name of your job (e.g., `ProcessCsvJob`, `Integrations::ThirdPartySyncJob`). This will prepend a tracking module directly into the job file.
 
-### 3. Tracking Rake Tasks
+### 4. Tracking Rake Tasks
 
 The agent can also monitor the memory usage of your Rake tasks.
 
@@ -112,7 +132,7 @@ rails generate heap_periscope_agent:rake_task_tracker my_namespace:my_task
 
 Replace `my_namespace:my_task` with the name of your task. This command will create a new file in `lib/tasks/` that enhances your existing task at runtime to add memory profiling. This method does not modify your original Rake file.
 
-### 4. Manual Usage
+### 5. Manual Usage
 
 Beyond the automated setup for Rails and Sidekiq, you can control the agent programmatically. This is useful for profiling specific sections of code, Rake tasks, or in non-Rails applications.
 
@@ -147,6 +167,7 @@ HeapPeriscopeAgent.report_once!
 | `verbose`                 | Enable verbose logging from the agent.                                      | `true`      |
 | `enable_detailed_objects` | Enable collection of detailed object allocation information.                | `false`     |
 | `detailed_objects_limit`  | Max number of detailed object types to report if `enable_detailed_objects` is true. | `20`        |
+| `enable_controller_instrumentation` | Enable tracking of living objects after each Rails controller action. | `false`     |
 | `service_name`            | An optional custom name for the service/process. If not set, it's automatically detected (Rails, Sidekiq, Rake). | `nil` (auto-detected) |
 
 ## Development

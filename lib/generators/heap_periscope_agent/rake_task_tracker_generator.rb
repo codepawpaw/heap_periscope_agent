@@ -32,7 +32,6 @@ module HeapPeriscopeAgent
               end
             end
           end
-          # --- End tracker for #{task_name} ---
         RUBY
 
         append_to_file(rakefile_path, "\n#{tracker_code}\n")

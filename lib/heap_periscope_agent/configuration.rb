@@ -1,6 +1,7 @@
 module HeapPeriscopeAgent
   class Configuration
-    attr_accessor :interval, :host, :port, :verbose, :enable_detailed_objects, :detailed_objects_limit, :service_name
+    attr_accessor :interval, :host, :port, :verbose, :enable_detailed_objects,
+                  :detailed_objects_limit, :service_name, :enable_controller_instrumentation, :enable_model_instrumentation
 
     def initialize
       @interval = 10 # seconds
@@ -10,6 +11,8 @@ module HeapPeriscopeAgent
       @enable_detailed_objects = false
       @detailed_objects_limit = 20
       @service_name = nil
+      @enable_controller_instrumentation = false
+      @enable_model_instrumentation = false
     end
   end
 end

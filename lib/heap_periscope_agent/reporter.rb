@@ -7,20 +7,17 @@ require 'thread'
 
 module HeapPeriscopeAgent
   class Reporter
-    # Using a lock to synchronize thread creation/destruction
     @lock = Mutex.new
-    # Using a reference counter for concurrent start/stop calls (e.g., in Sidekiq)
     @active_count = Concurrent::AtomicFixnum.new(0)
     @thread = nil
     @last_gc_total_time = 0
+    @span_reports = {}
 
     def self.start
       @config ||= HeapPeriscopeAgent.configuration
 
-      # If we increment from 0 to 1, we are responsible for starting the thread.
       if @active_count.increment == 1
         @lock.synchronize do
-          # In case of a race condition, ensure thread is not already running.
           return if @thread&.alive?
 
           HeapPeriscopeAgent.log("Reporter starting with interval: #{@config.interval}s.")
@@ -32,7 +29,6 @@ module HeapPeriscopeAgent
             @socket = UDPSocket.new
             last_snapshot_time = Time.now
 
-            # The loop continues as long as there are active jobs.
             while @active_count.value > 0
               if Time.now - last_snapshot_time >= @config.interval
                 send_snapshot_report
@@ -60,18 +56,15 @@ module HeapPeriscopeAgent
     def self.stop
       return if @active_count.value.zero?
 
-      # If we decrement from 1 to 0, we are responsible for stopping the thread.
       if @active_count.decrement == 0
         @lock.synchronize do
-          # Check again in case a `start` call incremented the counter while we waited for the lock.
           return unless @active_count.value.zero?
 
           thread_to_join = @thread
-          @thread = nil # Allow a new thread to be created on next `start`
+          @thread = nil
 
           HeapPeriscopeAgent.log("Stopping reporter...")
-          # The thread's loop condition (`@active_count.value > 0`) is now false,
-          # so it should exit gracefully. We join to wait for it.
+
           if thread_to_join&.join(5)
             HeapPeriscopeAgent.log("Reporter thread stopped gracefully.")
           else
@@ -92,27 +85,25 @@ module HeapPeriscopeAgent
       @socket.close
     end
 
+    def self.add_span_report(span_type, span_name, objects_data)
+      @span_reports[span_type] ||= []
+      @span_reports[span_type] << { name: span_name, live_objects: objects_data }
+    end
+
     private
 
     def self.service_name
-      # Prioritize user-defined service name from configuration
       if @config && @config.service_name
         return @config.service_name
       end
 
-      # The order of these checks is important.
-      # A Sidekiq process within a Rails app should be identified as 'Sidekiq'.
       if defined?(::Sidekiq) && ::Sidekiq.server?
         'Sidekiq'
-      # A Rake task within a Rails app should be identified as 'Rake'.
       elsif File.basename($0) == 'rake'
         'Rake'
-      # If it's not a Sidekiq server or a Rake task, but Rails is loaded,
-      # we assume it's a Rails process (e.g., web server, console).
       elsif defined?(::Rails)
         'Rails'
       else
-        # Fallback for other environments.
         File.basename($0)
       end
     end
@@ -120,7 +111,11 @@ module HeapPeriscopeAgent
     def self.send_snapshot_report
       HeapPeriscopeAgent.log("Collecting periodic snapshot...")
       stats = HeapPeriscopeAgent::Collector.collect_snapshot(@config.enable_detailed_objects)
-      send_payload(stats, "snapshot")
+
+      payload_data = stats.merge(living_objects_by_spans: @span_reports)
+      send_payload(payload_data, "snapshot")
+
+      @span_reports = {}
     end
 
     def self.send_gc_profiler_report
@@ -143,7 +138,7 @@ module HeapPeriscopeAgent
       payload = {
         type: type,
         process_id: Process.pid,
-        service_name: service_name,
+        service_name: self.service_name,
         reported_at: Time.now.utc.iso8601,
         payload: data
       }.to_json

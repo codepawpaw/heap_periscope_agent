@@ -1,4 +1,4 @@
-require 'heap_periscope_agent' # Ensure the main module is loaded
+require 'heap_periscope_agent'
 
 module HeapPeriscopeAgent
   class Railtie < Rails::Railtie

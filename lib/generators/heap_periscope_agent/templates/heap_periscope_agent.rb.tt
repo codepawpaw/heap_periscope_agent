@@ -29,4 +29,8 @@ HeapPeriscopeAgent.configure do |config|
   # distinct object types (by class name) to report on, sorted by count.
   # Default: 20
   config.detailed_objects_limit = 20
+
+  config.enable_model_instrumentation = true
+  config.enable_controller_instrumentation = true
+  config.enable_rake_instrumentation = true
 end
