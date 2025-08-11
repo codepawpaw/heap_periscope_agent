@@ -8,7 +8,13 @@ Gem::Specification.new do |s|
       Heap Periscope Agent offers deep insights into your Ruby application's memory behavior.
       It collects and reports real-time Garbage Collection (GC) statistics and object
       allocation patterns, empowering developers to identify memory leaks, optimize usage,
-      and enhance performance. Highly configurable and designed for minimal overhead.
+      and enhance performance. This gem is the backend agent for memory monitoring. To
+      visualize the collected data, you must also install the companion gem,
+      heap_periscope_ui
+
+      The agent's visualizer is available here:
+      - Gem: https://rubygems.org/gems/heap_periscope_ui
+      - Repository: https://github.com/codepawpaw/heap_periscope_ui
     DESC
     s.authors     = ["Jonathan Natanael Siahaan"]
     s.email       = "js.jonathan.n@gmail.com"
