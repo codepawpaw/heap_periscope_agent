@@ -14,6 +14,8 @@
 
 ## Installation
 
+### Agent Setup
+
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -32,13 +34,29 @@ Or install it yourself as:
 gem install heap_periscope_agent
 ```
 
-### Agent + UI Setup
+### UI Setup
 To get a complete, end-to-end view of your application's memory usage, you'll need to run both the Heap Periscope Agent and the Heap Periscope UI. The agent collects the data, and the UI visualizes it
 
 You can find the Heap Periscope UI here: 
 https://github.com/codepawpaw/heap_periscope_ui
 
-Follow the installationinstruction in the github page
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'heap_periscope_ui'
+```
+
+And then execute:
+
+```bash
+bundle install
+```
+
+Or install it yourself as:
+
+```bash
+gem install heap_periscope_ui
+```
 
 ## Usage
 
@@ -143,6 +161,9 @@ Replace `my_namespace:my_task` with the name of your task. This command will cre
 ### 5. Manual Usage
 
 Beyond the automated setup for Rails and Sidekiq, you can control the agent programmatically. This is useful for profiling specific sections of code, Rake tasks, or in non-Rails applications.
+
+### 6. Visit the result
+Open http://localhost:3000/heap_periscope in your browser
 
 #### Wrapping a Code Block
 

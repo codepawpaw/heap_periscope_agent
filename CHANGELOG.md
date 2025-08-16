@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.0] - Unreleased
+## [0.3.0] - 2025-08-11
 
 ### Added
 - Rails generator to instrument all Rake tasks (`heap_periscope_agent:rake_instrumentation`).
